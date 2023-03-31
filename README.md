@@ -21,8 +21,29 @@ Now lets use Openshift Pipelines concept to convert multipl cronJobs to achieve 
 
 ## Lets start
 
-### Manually creating Pipeline and Pipelinerun
+* Demo uses `write-file` tasks from [hub.tekton.dev](https://hub.tekton.dev/)
+* Demo covers results, runafter, when expression(if/else), finally(cleanup/removal), workspaces(storage), task reusability, params(how data can be passed from one place and used in multiple places)
 
-1. 
+1. Create project
+```
+oc new-project demo
+```
+2. Create re usable task from hub.tekton.dev
+```
+oc create -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/write-file/0.1/write-file.yaml
+```
+3. create pipeline and task which are required for demo
+```
+oc create -f https://raw.githubusercontent.com/savitaashture/unicredit/main/examples/pipeline.yaml
+```
+4. create pipelinerun manually
+```
+oc create -f https://raw.githubusercontent.com/savitaashture/unicredit/main/examples/pipelinerun.yaml
+```
 
+5. re-create pipelinerun from console with single click
 
+6. Create pipelinerun dynamically based on some events using
+    
+    * Pipelines as Code
+    * Triggers
