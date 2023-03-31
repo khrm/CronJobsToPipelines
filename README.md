@@ -47,3 +47,7 @@ oc create -f https://raw.githubusercontent.com/savitaashture/unicredit/main/exam
     
     * Pipelines as Code
     * Triggers
+    
+Final demo looks like below
+
+![Screenshot from 2023-03-31 16-15-48](https://user-images.githubusercontent.com/9441662/229100341-572d0c1c-d800-4857-aa30-1d386e96c91c.png)
