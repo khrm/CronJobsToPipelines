@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: unicredit-demo-pipeline-
+spec:
+  pipelineRef:
+    name: "unicredit-demo-pipeline"
+  params:
+    - name: path
+      value: "README.md"
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
