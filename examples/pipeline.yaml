@@ -1,7 +1,7 @@
-apiVersion: tekton.dev/v1
+apiVersion: tekton.dev/v1bta1
 kind: Pipeline
 metadata:
-  name: "unicredit-demo-pipeline"
+  name: "demo-pipeline"
 spec:
   params:
     - name: path
@@ -95,7 +95,7 @@ spec:
 
 # finally and deleting the data
 ---
-apiVersion: tekton.dev/v1
+apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: cleanup-workspace
