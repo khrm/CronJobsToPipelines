@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: "demo-pipeline"
@@ -51,7 +51,7 @@ spec:
         - name: source
           workspace: shared-workspace
       runAfter:
-        - fetch-data
+        - transform-data
       taskSpec:
         params:
           - name: filename
@@ -70,23 +70,16 @@ spec:
               else
                 printf no | tee $(results.exists.path)
               fi
-    - name: echo-if-file-exists # when expression becomes false the task won't be executed
+    - name: read-if-file-exists # when expression becomes false the task won't be executed
       runAfter:
         - check-file
+      params:
+        - name: path
+          value: "$(params.transform-path)"
       when:
         - input: "$(tasks.check-file.results.exists)"
           operator: in
           values: ["yes"]
-      taskSpec:
-        steps:
-          - name: echo
-            image: ubuntu
-            script: 'echo file exists'
-    - name: read-file
-      runAfter: [echo-if-file-exists]
-      params:
-        - name: path
-          value: "$(params.transform-path)"
       taskSpec:
         params:
           - name: path
