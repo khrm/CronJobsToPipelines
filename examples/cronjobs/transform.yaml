@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: transform
+spec:
+  schedule: "2 * * * *"
+  jobTemplate:
+    spec:
+      completions: 1
+      template:
+        spec:
+          serviceAccountName: default
+          containers:
+            - name: transform
+              image: nanozoo/jq:1.6--0bafc15
+              args:
+                - /bin/sh
+                - -ec
+                - cat /data/data.json | jq -r ".[] | [.code, .name, .level, .country] | @csv" >  /data/data.csv
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+          restartPolicy: Never
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: data
