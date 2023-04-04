@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: read
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      completions: 1
+      template:
+        spec:
+          serviceAccountName: default
+          containers:
+            - name: cat
+              image: curlimages/curl:latest
+              args:
+                - /bin/sh
+                - -ec
+                - cat /data/data.csv
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+          restartPolicy: Never
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: data

@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: fetch-data
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      completions: 1
+      template:
+        spec:
+          serviceAccountName: default
+          containers:
+            - name: fetch-data
+              image: curlimages/curl:latest
+              args:
+                - /bin/sh
+                - -ec
+                - curl https://api.npoint.io/e1ce6e7e3038ea97d6d9 > /data/data.json
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+          restartPolicy: Never
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: data
