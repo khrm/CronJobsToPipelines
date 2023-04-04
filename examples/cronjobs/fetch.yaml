@@ -14,7 +14,7 @@ kind: CronJob
 metadata:
   name: fetch-data
 spec:
-  schedule: "* * * * *"
+  schedule: "1 * * * *"
   jobTemplate:
     spec:
       completions: 1
