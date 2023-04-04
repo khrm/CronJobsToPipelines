@@ -1,40 +1,60 @@
-apiVersion: tekton.dev/v1bta1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: "demo-pipeline"
 spec:
   params:
-    - name: path
+    - name: filename
       type: string
-      description: The path of the file to be created
+      description: The name of the file to be created
+    - name: transform-path
+      type: string
+      description: The path of the transformed file
+    - name: url
+      type: string
   workspaces:
     - name: shared-workspace
   tasks:
-    - name: write-file
+    - name: fetch-data
       taskRef:
-        name: write-file
+        name: wget
       workspaces:
-        - name: output
+        - name: wget-workspace
           workspace: shared-workspace
       params:
-        - name: path
-          value: "$(params.path)"
-        - name: contents
-          value: |
-            "hello"
-            "hi"
-    - name: check-file
+        - name: options
+          value:
+            - "-O"
+            - $(workspaces.wget-workspace.path)/$(params.filename)
+        - name: url
+          value: "$(params.url)"
+    - name: transform-data
+      taskRef:
+        name: transform-data
       params:
-        - name: path
-          value: "$(params.path)"
+        - name: filename
+          value: "$(params.filename)"
+        - name: transform-path
+          value: "$(params.transform-path)"
+        - name: options
+          value: ".[] | [.code, .name, .level, .country] | @csv"
       workspaces:
         - name: source
           workspace: shared-workspace
       runAfter:
-        - write-file
+        - fetch-data
+    - name: check-file
+      params:
+        - name: filename
+          value: "$(params.transform-path)"
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      runAfter:
+        - fetch-data
       taskSpec:
         params:
-          - name: path
+          - name: filename
         workspaces:
           - name: source
             description: The workspace to check for the file
@@ -45,7 +65,7 @@ spec:
           - name: check-file
             image: alpine
             script: |
-              if test -f $(workspaces.source.path)/$(params.path); then
+              if test -f $(workspaces.source.path)/$(params.filename); then
                 printf yes | tee $(results.exists.path)
               else
                 printf no | tee $(results.exists.path)
@@ -66,7 +86,7 @@ spec:
       runAfter: [echo-if-file-exists]
       params:
         - name: path
-          value: "$(params.path)"
+          value: "$(params.transform-path)"
       taskSpec:
         params:
           - name: path
@@ -86,8 +106,8 @@ spec:
       taskRef:
         name: cleanup-workspace
       params:
-        - name: path
-          value: "$(params.path)"
+        - name: filename
+          value: "$(params.filename)"
       workspaces:
         - name: source
           workspace: shared-workspace
@@ -104,24 +124,45 @@ spec:
     # Shared workspace where data stored
     - name: source
   params:
-    - name: path
+    - name: filename
       type: string
   steps:
     - name: check-dir-exist
       image: ubuntu
       script: |
-        if [ ! -f "$(workspaces.source.path)/$(params.path)" ]; then
-          echo "Something went wrong and could not find data source under $(workspaces.source.path)/$(params.path)"
+        if [ ! -f "$(workspaces.source.path)/$(params.filename)" ]; then
+          echo "Something went wrong and could not find data source under $(workspaces.source.path)/$(params.filename)"
           exit 1
         fi
     - name: cleanup-workspace
       image: ubuntu
       script: |
-        rm -rf $(workspaces.source.path)/$(params.path)
+        rm -rf $(workspaces.source.path)/$(params.filename)
     - name: verify-dir-has-gone
       image: ubuntu
       script: |
-        if [ -f "$(workspaces.source.path)/$(params.path)" ]; then
-          echo "Something went wrong cleaning up and the data source still exists under $(workspaces.source.path)/$(params.path)"
+        if [ -f "$(workspaces.source.path)/$(params.filename)" ]; then
+          echo "Something went wrong cleaning up and the data source still exists under $(workspaces.source.path)/$(params.filename)"
           exit 1
         fi
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: transform-data
+spec:
+  workspaces:
+    # Shared workspace where data stored
+    - name: source
+  params:
+    - name: filename
+      type: string
+    - name: transform-path
+      type: string
+    - name: options
+      type: string
+  steps:
+    - name: transform
+      image: nanozoo/jq:1.6--0bafc15
+      script: |
+        jq -r "$(params.options)" "$(workspaces.source.path)/$(params.filename)" >  "$(workspaces.source.path)/$(params.transform-path)"

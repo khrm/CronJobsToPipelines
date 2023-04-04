@@ -4,10 +4,14 @@ metadata:
   generateName: unicredit-demo-pipeline-
 spec:
   pipelineRef:
-    name: "unicredit-demo-pipeline"
+    name: "demo-pipeline"
   params:
-    - name: path
-      value: "README.md"
+    - name: filename
+      value: README.json
+    - name: url
+      value: https://api.npoint.io/e1ce6e7e3038ea97d6d9
+    - name: transform-path
+      value: "readme.csv"
   workspaces:
     - name: shared-workspace
       volumeClaimTemplate:
