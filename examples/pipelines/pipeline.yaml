@@ -16,8 +16,6 @@ spec:
     - name: shared-workspace
   tasks:
     - name: fetch-data
-      retries: 10
-      timeout: "0h0m10s"
       taskRef:
         name: wget
       workspaces:
