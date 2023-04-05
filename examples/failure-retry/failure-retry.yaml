@@ -4,7 +4,7 @@ metadata:
   generateName: unicredit-demo-pipeline-
 spec:
   pipelineRef:
-    name: "demo-pipeline"
+    name: "demo-pipeline-retry"
   params:
     - name: filename
       value: README.json

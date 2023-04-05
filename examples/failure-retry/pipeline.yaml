@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: "demo-pipeline"
+  name: "demo-pipeline-retry"
 spec:
   params:
     - name: filename
