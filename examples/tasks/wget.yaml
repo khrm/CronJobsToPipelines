@@ -41,7 +41,6 @@ spec:
         - $(params.diroptions[*])
       command:
         - wget
-      computeResources: {}
       image: $(params.wget-option)
       name: wget
   workspaces:
