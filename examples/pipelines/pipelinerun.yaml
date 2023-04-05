@@ -1,7 +1,7 @@
-apiVersion: tekton.dev/v1
+apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  generateName: unicredit-demo-pipeline-
+  generateName: demo-pipeline-
 spec:
   pipelineRef:
     name: "demo-pipeline"
