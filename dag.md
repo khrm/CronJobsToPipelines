@@ -5,8 +5,11 @@
                                      fetch
                                        |
                                        v
-                                 transform-task
+                                 bson-transform-task
                                  |            |
+                                 |            |
+                                 v            |
+                      thrift-transform        |
                                  |            v
                                  v           store-db2
                              store-db1        |
