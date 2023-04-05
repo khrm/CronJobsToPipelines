@@ -1,0 +1,21 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: transform-data
+spec:
+  workspaces:
+    # Shared workspace where data stored
+    - name: source
+  params:
+    - name: filename
+      type: string
+    - name: transform-path
+      type: string
+    - name: options
+      type: string
+  steps:
+    - name: transform
+      image: nanozoo/jq:1.6--0bafc15
+      script: |
+        jq -r "$(params.options)" "$(workspaces.source.path)/$(params.filename)" >  "$(workspaces.source.path)/$(params.transform-path)"
