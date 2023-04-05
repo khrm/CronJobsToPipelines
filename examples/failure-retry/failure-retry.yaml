@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: unicredit-demo-pipeline-
+spec:
+  pipelineRef:
+    name: "demo-pipeline-retry"
+  params:
+    - name: filename
+      value: README.json
+    - name: url
+      value: https://mocking.free.beeceptor.com/hourly/v1
+    - name: transform-path
+      value: "readme.csv"
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
