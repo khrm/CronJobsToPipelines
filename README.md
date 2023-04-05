@@ -10,10 +10,9 @@
 
 We will have couple of cronJobs
 
-1. cronJob to create data and write to a perticular storage
-2. cronJob checks storage to indicate existance of data
+1. cronJob to fetch data from perticular source and store into perticular storage
+2. cronJob to convert fetched data into CSV
 3. cronJob to read data from storage
-4. cronJob to delete the data from storage/ cleanup the storage
 
 Now lets use Openshift Pipelines concept to convert multipl cronJobs to achieve the usecase
 
@@ -21,8 +20,14 @@ Now lets use Openshift Pipelines concept to convert multipl cronJobs to achieve 
 
 ## Lets start
 
-* Demo uses `write-file` tasks from [hub.tekton.dev](https://hub.tekton.dev/)
-* Demo covers results, runafter, when expression(if/else), finally(cleanup/removal), workspaces(storage), task reusability, params(how data can be passed from one place and used in multiple places)
+* Demo covers 
+1. How to re-use the tasks
+2. results
+3. runafter (To manage task run)
+4. when expression(if/else)
+5. finally(cleanup/removal)
+6. workspaces(storage)
+7. params(how data can be passed from one place and used in multiple places)
 
 1. Create project
 ```
