@@ -21,13 +21,14 @@ Now lets use Openshift Pipelines concept to convert multipl cronJobs to achieve 
 ## Lets start
 
 * Demo covers 
-1. How to re-use the tasks
-2. results
-3. runafter (To manage task run)
-4. when expression(if/else)
-5. finally(cleanup/removal)
-6. workspaces(storage)
-7. params(how data can be passed from one place and used in multiple places)
+  1. How to re-use the tasks
+  2. results
+  3. runafter (To manage task run)
+  4. when expression(if/else)
+  5. finally(cleanup/removal)
+  6. workspaces(storage)
+  7. params(how data can be passed from one place and used in multiple places)
+
 
 1. Create project
 ```
