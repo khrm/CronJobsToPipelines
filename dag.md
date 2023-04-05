@@ -8,7 +8,7 @@
                                  bson-transform-task
                                  |            |
                                  |            |
-                                 v            |
+                                 v          fill-if-not-exist-field-task(when)
                       thrift-transform        |
                                  |            v
                                  v           store-db2
