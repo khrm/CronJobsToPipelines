@@ -5,11 +5,12 @@
                                      fetch
                                        |
                                        v
-                                 transform
+                                 transform-task
                                  |            |
-                                 v        db2
-                            db1       |
-                                |             v
-                                v          read
-                            read
+                                 |            v
+                                 v           store-db2
+                             store-db1        |
+                                 |            v
+                                 v           read
+                                read
 ```
