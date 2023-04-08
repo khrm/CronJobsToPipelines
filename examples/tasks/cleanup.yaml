@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: cleanup-workspace
+  name: cleanup
 spec:
   workspaces:
     # Shared workspace where data stored
