@@ -17,7 +17,7 @@ spec:
   tasks:
     - name: fetch-data
       retries: 10
-      timeout: "0h0m10s"
+      timeout: "0h1m10s"
       taskRef:
         name: wget
       workspaces:
@@ -65,7 +65,7 @@ spec:
             description: indicates whether the file exists or is missing
         steps:
           - name: check-file
-            image: alpine
+            image: registry.access.redhat.com/ubi8-micro:8.7-8
             script: |
               if test -f $(workspaces.source.path)/$(params.filename); then
                 printf yes | tee $(results.exists.path)
@@ -88,7 +88,7 @@ spec:
             type: string
         steps:
           - name: read
-            image: ubuntu
+            image: registry.access.redhat.com/ubi8-micro:8.7-8
             script: cat $(workspaces.source.path)/$(params.path)
         workspaces:
           - name: source

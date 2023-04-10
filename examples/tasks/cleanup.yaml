@@ -12,18 +12,18 @@ spec:
       type: string
   steps:
     - name: check-dir-exist
-      image: ubuntu
+      image: registry.access.redhat.com/ubi8-micro:8.7-8
       script: |
         if [ ! -f "$(workspaces.source.path)/$(params.filename)" ]; then
           echo "Something went wrong and could not find data source under $(workspaces.source.path)/$(params.filename)"
           exit 1
         fi
     - name: cleanup-workspace
-      image: ubuntu
+      image: registry.access.redhat.com/ubi8-micro:8.7-8
       script: |
         rm -rf $(workspaces.source.path)/$(params.filename)
     - name: verify-dir-has-gone
-      image: ubuntu
+      image: registry.access.redhat.com/ubi8-micro:8.7-8
       script: |
         if [ -f "$(workspaces.source.path)/$(params.filename)" ]; then
           echo "Something went wrong cleaning up and the data source still exists under $(workspaces.source.path)/$(params.filename)"
