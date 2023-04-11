@@ -23,11 +23,11 @@ spec:
           serviceAccountName: default
           containers:
             - name: fetch-data
-              image: curlimages/curl:latest
+              image: quay.io/khrm/wget:latest
               args:
                 - /bin/sh
                 - -ec
-                - curl https://api.npoint.io/e1ce6e7e3038ea97d6d9 > /data/data.json
+                - wget https://api.npoint.io/e1ce6e7e3038ea97d6d9 -O /data/data.json
               volumeMounts:
                 - name: data
                   mountPath: /data
