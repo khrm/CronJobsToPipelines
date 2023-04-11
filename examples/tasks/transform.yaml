@@ -16,6 +16,6 @@ spec:
       type: string
   steps:
     - name: transform
-      image: nanozoo/jq:1.6--0bafc15
+      image: quay.io/khrm/jq:latest
       script: |
         jq -r "$(params.options)" "$(workspaces.source.path)/$(params.filename)" >  "$(workspaces.source.path)/$(params.transform-path)"
