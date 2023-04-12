@@ -99,7 +99,7 @@ spec:
     # Cleanup workspace
     - name: cleanup
       taskRef:
-        name: cleanup-workspace
+        name: cleanup
       params:
         - name: filename
           value: "$(params.filename)"
