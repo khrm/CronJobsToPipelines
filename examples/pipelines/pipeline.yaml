@@ -71,8 +71,6 @@ spec:
                 printf no | tee $(results.exists.path)
               fi
     - name: read-if-file-exists # when expression becomes false the task won't be executed
-      runAfter:
-        - check-file
       params:
         - name: path
           value: "$(params.transform-path)"
