@@ -12,17 +12,22 @@ spec:
           serviceAccountName: default
           containers:
             - name: run-pipeline
-              image: quay.io/khrm/tkn-workspace-template:latest
+              image: quay.io/khrm/tkn:latest
               env:
                 - name: KUBECONFIG
                   value: /kubeconfig/in.ctx
               command: ["/bin/sh"]
-              args: ["-c", "tkn pipeline start --workspace name=shared-workspace,volumeClaimTemplateFile=/workspace-template.yaml -p url=https://api.npoint.io/e1ce6e7e3038ea97d6d9 -p filename=README.json -p transform-path=readme.csv demo-pipeline-retry"]
+              args: ["-c", "tkn pipeline start --workspace name=shared-workspace,volumeClaimTemplateFile=/workspace/workspace-template.yaml -p url=https://api.npoint.io/e1ce6e7e3038ea97d6d9 -p filename=README.json -p transform-path=readme.csv 'demo-pipeline'"]
               volumeMounts:
                 - name: kubeconfig
                   mountPath: /kubeconfig
+                - name: workspacetemplate
+                  mountPath: /workspace
           restartPolicy: Never
           volumes:
             - name: kubeconfig
               secret:
                 secretName: kubeconfig
+            - name: workspacetemplate
+              configMap:
+                name: workspacetemplate
