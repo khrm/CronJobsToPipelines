@@ -56,7 +56,8 @@ oc create -f https://raw.githubusercontent.com/savitaashture/unicredit/main/exam
     
 Final demo looks like below
 
-![final](https://user-images.githubusercontent.com/9441662/229976117-4321ab73-c42f-47b2-abae-8692dedb141d.png)
+![Screenshot from 2023-04-20 17-28-21](https://user-images.githubusercontent.com/9441662/233359312-43ba84ef-0d71-4e73-8aef-5985ff70cfd7.png)
+
 ![Screenshot from 2023-04-12 16-11-53](https://user-images.githubusercontent.com/9441662/231434347-55eb36c7-607a-4215-9824-b5f7b7f24177.png)
 
 
