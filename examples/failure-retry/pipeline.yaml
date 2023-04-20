@@ -1,7 +1,7 @@
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
-  name: "demo-pipeline-retry"
+  name: demo-pipeline-retry
 spec:
   params:
     - name: filename
@@ -17,7 +17,7 @@ spec:
   tasks:
     - name: fetch-data
       retries: 10
-      timeout: "0h1m10s"
+      timeout: "0h0m30s"
       taskRef:
         name: wget
       workspaces:
@@ -73,8 +73,6 @@ spec:
                 printf no | tee $(results.exists.path)
               fi
     - name: read-if-file-exists # when expression becomes false the task won't be executed
-      runAfter:
-        - check-file
       params:
         - name: path
           value: "$(params.transform-path)"
