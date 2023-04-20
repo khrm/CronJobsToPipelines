@@ -12,7 +12,7 @@ spec:
           serviceAccountName: default
           containers:
             - name: cat
-              image: curlimages/curl:latest
+              image: registry.access.redhat.com/ubi8-micro:8.7-8
               args:
                 - /bin/sh
                 - -ec
