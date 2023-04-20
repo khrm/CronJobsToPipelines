@@ -12,7 +12,7 @@ spec:
           serviceAccountName: default
           containers:
             - name: transform
-              image: nanozoo/jq:1.6--0bafc15
+              image: quay.io/khrm/jq:latest
               args:
                 - /bin/sh
                 - -ec
